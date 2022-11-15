@@ -1,0 +1,39 @@
+version: '3.7'
+services:
+  db:
+    image: mysql:8
+    volumes:
+      - ./data/db:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=your_db
+      - MYSQL_USER=your_user
+      - MYSQL_PASSWORD=your_password
+      - MYSQL_ROOT_PASSWORD=your_root_password
+      - MYSQL_HOST=db
+    ports:
+      - "3307:3306"
+  phpmyadmin:
+    image: phpmyadmin
+    depends_on:
+      - db
+    ports:
+      - "8080:80"
+    environment:
+      - MYSQL_ROOT_PASSWORD=your_root_password
+    restart: unless-stopped
+  web:         
+    build: 
+      context: .
+    command: sh -c "python -m flask run --host=0.0.0.0"
+    container_name: mywebsite
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./app:/app 
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_NAME=your_db
+      - DB_USER=your_user
+      - DB_PASS=your_password

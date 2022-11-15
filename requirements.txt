@@ -1,0 +1,10 @@
+Flask
+flask_sqlalchemy
+PyMySQL
+flask_migrate
+flask_wtf
+graphene==2.1.8
+graphene-sqlalchemy
+graphql-relay
+Flask-GraphQL
+graphql-core==2.2.1
